@@ -5,7 +5,7 @@
 using namespace std;
 
 int main(){
-    string eq = "532+56-12";
+    string eq = "532+56+1+1+1";
 
     stack<string> st;
     stack<char> op;
@@ -28,22 +28,48 @@ int main(){
     }
 
     for (char x : eq) {
-
+        if (!(isdigit(x))) {
+            op.push(x);
+        }
     }
 
-    stack<string> copy = st;
-    stack<string> rev;
-    while (!copy.empty()) {
-        rev.push(copy.top());
-        copy.pop();
+    stack<string> rev_num;
+    while (!st.empty()) {
+        rev_num.push(st.top());
+        st.pop();
     }
 
-    while (!rev.empty()) {
-        cout << rev.top() << "\n";
-        rev.pop();
+    stack<char> rev_op;
+    while (!op.empty()) {
+        rev_op.push(op.top());
+        op.pop();
     }
 
+    stack<int> ints;
+    int result = 0;
+    while (!rev_num.empty()) {
+        ints.push(stoi(rev_num.top()));
+        rev_num.pop();
+    }
 
+    while (!rev_op.empty()) {
+        char x = rev_op.top();
+        rev_op.pop();
+
+        switch (x) {
+        case '+': {
+            int right = ints.top(); ints.pop();
+            int left  = ints.top(); ints.pop();
+            result = left + right;
+            ints.push(result);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+    cout << result;
 
     return 0;
 }
