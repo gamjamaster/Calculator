@@ -4,14 +4,14 @@
 #include <cctype>
 using namespace std;
 
-int main(){
-    string eq = "532+56+1+1+1";
+int main() {
+    string eq = "56-1-1";
 
     stack<string> st;
     stack<char> op;
     string temp = "";
 
-    for (int x = 0; x < eq.size(); x++){
+    for (int x = 0; x < eq.size(); x++) {
         bool isLast = (x == eq.size() - 1);
         if (isdigit(eq[x])) {
             temp.push_back(eq[x]);
@@ -59,8 +59,15 @@ int main(){
         switch (x) {
         case '+': {
             int right = ints.top(); ints.pop();
-            int left  = ints.top(); ints.pop();
+            int left = ints.top(); ints.pop();
             result = left + right;
+            ints.push(result);
+            break;
+        }
+        case '-': {
+            int right = ints.top(); ints.pop();
+            int left = ints.top(); ints.pop();
+            result = left - right;
             ints.push(result);
             break;
         }
