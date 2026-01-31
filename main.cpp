@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    string eq = "56-1-1";
+    string eq = "55-2-3";
 
     stack<string> st;
     stack<char> op;
@@ -45,38 +45,35 @@ int main() {
         op.pop();
     }
 
-    stack<int> ints;
     int result = 0;
-    while (!rev_num.empty()) {
-        ints.push(stoi(rev_num.top()));
-        rev_num.pop();
-    }
 
     while (!rev_op.empty()) {
         char x = rev_op.top();
         rev_op.pop();
 
+        int left = stoi(rev_num.top());
+        rev_num.pop();
+
+        int right = stoi(rev_num.top());
+        rev_num.pop();
+
         switch (x) {
         case '+': {
-            int right = ints.top(); ints.pop();
-            int left = ints.top(); ints.pop();
             result = left + right;
-            ints.push(result);
             break;
         }
         case '-': {
-            int right = ints.top(); ints.pop();
-            int left = ints.top(); ints.pop();
             result = left - right;
-            ints.push(result);
             break;
         }
         default:
             break;
         }
+        rev_num.push(to_string(result));
     }
 
-    cout << result;
+    if (!rev_num.empty()) cout << stoi(rev_num.top());
+    else cout << result;
 
     return 0;
 }
